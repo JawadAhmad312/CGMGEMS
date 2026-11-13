@@ -218,7 +218,11 @@ const CollectionProductsPage = () => {
     grid-cols-2
     md:grid-cols-3
     xl:grid-cols-4
-    gap-3
+    2xl:grid-cols-5
+    gap-5
+    md:gap-8
+    lg:gap-x-10
+    lg:gap-y-12
   "
 >
 

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiTrash2 } from "react-icons/fi";
 import slugify from "slugify";
+import { usdToPkr } from "../../../lib/currency";
 
 function AddGemstone() {
 
@@ -312,7 +313,7 @@ setLoading(true);
 
           formData.append(
             key,
-            value ?? ""
+            key === "price" ? usdToPkr(value) : value ?? ""
           );
         }
       );

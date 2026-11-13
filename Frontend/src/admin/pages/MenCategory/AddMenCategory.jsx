@@ -7,6 +7,7 @@ import {
     useNavigate,
 } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { usdToPkr } from "../../../lib/currency";
 
 
 
@@ -244,7 +245,7 @@ function AddMenCategory() {
 
             formData.append(
                 "price",
-                Number(category.price)
+                usdToPkr(category.price)
             );
 
             formData.append(

@@ -3,6 +3,7 @@ import { Link, NavLink , useNavigate} from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "/src/context/AuthContext";
 import { apiUrl } from "../../lib/api";
+import { formatUsd } from "../../lib/currency";
 import './Navbar.css'
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import AnnouncementBar from './Announcements';
@@ -120,9 +121,9 @@ const cartKey = `cart_${userId}`;
     <>
 <AnnouncementBar/>
       {/* FIRST NAVBAR (normal) */}
-     <div className="bg-white w-full border-b-2 border-gray-200 md:border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.06)] md:px-10 md:py-4">
+     <div className="ng-main-header bg-white w-full border-b border-[#e1e5e5] md:px-10 md:py-5 ">
 
-        <div className="navbar flex items-center  justify-between px-4">
+        <div className="navbar flex items-center  justify-between px-4 " >
 
           {/* LEFT SIDE - Social Icons */}
           <div className="hidden md:flex gap-5 text-gray-500 text-lg">
@@ -152,19 +153,13 @@ const cartKey = `cart_${userId}`;
             ☰
           </button>
           {/* CENTER - Logo */}
-          <div className="flex flex-col items-center select-none">
+          <Link to="/" className="h-[90px] select-none" aria-label="CGM GEMS home">
             <img
-              src="/images/logo.png"
-              alt="Swati Gemz"
-              className="w-12 md:w-16 object-contain"
+              src="/images/CGM.png"
+              alt="CGM GEMS"
+              className="ng-header-logo__image"
             />
-
-            <Link to="/">
-              <h2 className="text-sm md:text-[26px] font-bold bg-gradient-to-r from-[#092805] to-[#224225] bg-clip-text text-transparent tracking-wide">
-                SWATI GEMZ
-              </h2>
-            </Link>
-          </div>
+          </Link>
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-6 text-lg">
@@ -498,7 +493,7 @@ const cartKey = `cart_${userId}`;
                                   {item.title || item.name}
                                 </p>
                                 <p className="search-product__price">
-                                  PKR {item.price}
+                                  {formatUsd(item.price)}
                                 </p>
                               </div>
                             </Link>
@@ -516,14 +511,14 @@ const cartKey = `cart_${userId}`;
 
 
       {/* SECOND NAVBAR (STICKY ON SCROLL) */}
-      <div className="md:navbar md:h-4 second-navbar md:sticky md:top-0 md:z-50 md:bg-white md:shadow-sm">
-        <nav className="px-4  md:navbar md:navbar-center">
-          <div className="flex justify-between items-center mx-auto max-w-screen-xl w-full">
+      <div className="ng-catalog-nav md:navbar second-navbar md:sticky md:top-0 md:z-50 md:bg-white">
+        <nav className="px-4  md:navbar md:navbar-center ">
+          <div className="flex justify-between items-center mx-auto h-4 max-w-screen-xl w-full">
 
             {/* ---------------- Mobile Hamburger Icon ---------------- */}
 
             {/* ---------------- Desktop Menu ---------------- */}
-            <ul className="hidden md:flex flex-row justify-center roboto-mono mx-auto items-center font-medium space-x-15">
+            <ul className="hidden md:flex flex-row justify-center roboto-mono mx-auto  items-center font-medium space-x-10">
               <li>
                 <NavLink to="/Stone" className={({ isActive }) =>
                   `px-3 py-2 md:text-[14px] lg:text-lg md:text-[15px] transition 
@@ -591,7 +586,7 @@ const cartKey = `cart_${userId}`;
                   <NavLink
                     to="/AboutUs"
                     className={({ isActive }) =>
-                      ` md:text-[14px] lg:text-lg transition 
+                      ` md:text-[14px]  transition 
                                         ${isActive ? "text-gray-600" : "text-black"}`
                     }
                   >
@@ -763,7 +758,7 @@ const cartKey = `cart_${userId}`;
             
             {/* Currency */}
             <div className="flex items-center gap-2 text-sm text-gray-700 mb-6">
-              <span>Pakistan | PKR Rs</span>
+              <span>Pakistan | USD</span>
 
               <i className="fa-solid fa-angle-down text-xs"></i>
             </div>

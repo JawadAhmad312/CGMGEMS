@@ -1,0 +1,38 @@
+.ng-product-page { padding-top: 30px; border-top: 1px solid #e4e7e7; }
+.ng-product-image { background: #fff !important; border-color: #e3e7e7 !important; box-shadow: none !important; }
+.ng-product-image img { max-width: 72%; max-height: 88%; }
+.ng-product-info { padding-top: 4px; }
+.ng-product-info > p:first-child { font-size: 10px; letter-spacing: .15em; color: #5a5a5a; }
+.ng-product-availability { order: -1; margin-bottom: 12px; color: #2eaf68; font-size: 12px; }
+.ng-product-info h1 { font-family: Georgia, 'Times New Roman', serif !important; font-size: 34px !important; font-style: italic; font-weight: 400 !important; line-height: 1.25 !important; }
+.ng-product-price { font-family: Georgia, 'Times New Roman', serif; font-size: 20px !important; font-weight: 700; }
+.ng-product-info .ng-product-primary { background: #292929 !important; border-radius: 0; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; font-weight: 700; }
+.ng-product-info button { border-radius: 0; }
+.ng-product-thumbnails { flex-wrap: wrap; max-height: 250px; overflow: auto; }
+.ng-product-thumbnails button { flex: 0 0 80px; border-radius: 0; }
+.legacy-product-details { display: none; }
+.show-product-details { width: min(1180px, calc(100% - 48px)); margin: 72px auto 0; }
+.show-product-details h2 { margin: 0 0 14px; text-align: center; font-family: Georgia, serif; font-size: 27px; font-style: italic; font-weight: 400; text-transform: uppercase; }
+.show-product-details__table { border-top: 1px solid #dfe3e3; }
+.show-product-details__row { display: grid; grid-template-columns: 125px 1fr; min-height: 33px; align-items: center; border-bottom: 1px solid #dfe3e3; font-size: 11px; }
+.show-product-details__row span { padding-left: 12px; color: #56616b; }
+.show-product-details__row strong { padding: 7px 12px; color: #31383d; font-weight: 400; }
+.show-product-details__description { margin: 24px auto 0; max-width: 900px; color: #59616a; font-size: 13px; line-height: 1.8; text-align: center; }
+.show-product-media { position: relative; display: grid; min-height: 360px; width: 100%; margin-top: 78px; overflow: hidden; background: #28213f; }
+.show-product-media video { grid-area: 1 / 1; width: 100%; height: 100%; min-height: 360px; object-fit: cover; opacity: .38; }
+.show-product-media__copy { z-index: 1; grid-area: 1 / 1; align-self: center; justify-self: center; max-width: 500px; padding: 40px 24px; color: #fff; text-align: center; }
+.show-product-media__copy p { margin: 0 0 15px; font-size: 10px; letter-spacing: .2em; }
+.show-product-media__copy h2 { margin: 0 0 12px; font-family: Georgia, serif; font-size: 34px; font-style: italic; font-weight: 400; }
+.show-product-media__copy span { font-size: 13px; }
+.ng-product-page~.show-product-details h2, .ng-product-page~div h2 { font-family: Georgia, serif !important; font-style: italic; font-weight: 400 !important; }
+@media (max-width: 700px) {
+	.ng-product-page { margin-top: 24px; padding-top: 18px; }
+	.ng-product-info h1 { font-size: 28px !important; }
+	.ng-product-image { height: 390px !important; }
+	.ng-product-thumbnails { max-height: none; }
+	.show-product-details { width: calc(100% - 32px); margin-top: 52px; }
+	.show-product-details__row { grid-template-columns: 105px 1fr; }
+	.show-product-media { min-height: 280px; margin-top: 52px; }
+	.show-product-media video { min-height: 280px; }
+	.show-product-media__copy h2 { font-size: 28px; }
+}

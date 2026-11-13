@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
+import { formatUsd } from "../../../lib/currency";
 
 export default function StatsCards({ stats }) {
   const cards = [
     {
       title: "Revenue",
-      value: `PKR.${stats?.revenue?.toLocaleString() || 0}`,
+      value: formatUsd(stats?.revenue || 0),
       change: `${stats?.growth || 0}%`,
       color:
         stats?.growth >= 0 ? "text-green-500" : "text-red-500",

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { usdToPkr } from "../../../lib/currency";
 
 function AddWomenCategory() {
 
@@ -193,7 +194,7 @@ function AddWomenCategory() {
 
       formData.append(
         "price",
-        form.price
+        usdToPkr(form.price)
       );
 
       formData.append(

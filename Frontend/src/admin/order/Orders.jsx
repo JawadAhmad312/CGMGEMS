@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import html2canvas
 from "html2canvas-pro";
 import { useRef } from "react";
+import { formatUsd } from "../../lib/currency";
 function Orders() {
 
   const [orders, setOrders] = useState([]);
@@ -365,7 +366,7 @@ shadow dark:text-black
               font-bold dark:text-black
             "
           >
-            Rs.
+                {formatUsd(order.total)}
             {revenue.toLocaleString()}
           </h2>
         </div>
@@ -492,7 +493,7 @@ border-gray-400 dark:text-black
 
                   <td className="p-4 dark:text-black">
 
-                    Rs.
+                    {formatUsd(order.total)}
                     {Number(
                       order.total
                     ).toLocaleString()}
@@ -693,7 +694,7 @@ Total
 
 <span className="dark:text-black">
 
-PKR {Number(order.total).toLocaleString()}
+{formatUsd(order.total)}
 
 </span>
 
@@ -1047,7 +1048,7 @@ Delete
   </p>
 
               <p>
-                Rs {item.price}
+                {formatUsd(item.price)}
               </p>
 
             </div>

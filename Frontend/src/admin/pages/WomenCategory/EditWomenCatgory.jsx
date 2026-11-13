@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditWomenCategory() {
 
@@ -95,7 +96,7 @@ function EditWomenCategory() {
             data.title || "",
 
           price:
-            data.price || "",
+            formatUsdInput(data.price),
 
           description:
             data.description || "",
@@ -300,7 +301,7 @@ function EditWomenCategory() {
 
       formData.append(
         "price",
-        form.price
+        usdToPkr(form.price)
       );
 
       formData.append(

@@ -42,24 +42,30 @@ import chatRoutes from "./routes/chatRoutes.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({
+const dotenvResult = dotenv.config({
   path: path.join(__dirname, ".env"),
+  quiet: true,
 });
+
+// dotenv intentionally preserves variables inherited from the shell.  A blank
+// inherited value should not mask a valid value in this project's .env file.
+const getEnv = (name) =>
+  process.env[name]?.trim() || dotenvResult.parsed?.[name]?.trim();
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 8080;
+const PORT = getEnv("PORT") || 8080;
 const MONGO_URI =
-  process.env.MONGO_URI ||
-  process.env.MONGODB_URI ||
+  getEnv("MONGO_URI") ||
+  getEnv("MONGODB_URI") ||
   "mongodb://127.0.0.1:27017/StoneGemz";
 const MONGO_DB_NAME =
-  process.env.MONGO_DB_NAME || "StoneGemz";
+  getEnv("MONGO_DB_NAME") || "StoneGemz";
 const CLIENT_ORIGIN =
-  process.env.CLIENT_ORIGIN ||
-  process.env.FRONTEND_URL ||
+  getEnv("CLIENT_ORIGIN") ||
+  getEnv("FRONTEND_URL") ||
   "http://localhost:5173";
-const SESSION_SECRET = process.env.SESSION_SECRET;
+const SESSION_SECRET = getEnv("SESSION_SECRET");
 const SESSION_COOKIE_NAME =
   process.env.SESSION_COOKIE_NAME || "gemstone.sid";
 const SESSION_TTL_DAYS = Math.max(
@@ -108,16 +114,22 @@ const allowedOrigins = [
   .filter((origin, index, list) => list.indexOf(origin) === index);
 
 const buildMongoUri = (rawUri, dbName) => {
-  const trimmedUri = rawUri.trim();
+  const trimmedUri = String(rawUri || "").trim();
+  if (!trimmedUri) return trimmedUri;
+
   const [baseUri, queryString] = trimmedUri.split("?");
   const normalizedBaseUri = baseUri.endsWith("/")
     ? baseUri.slice(0, -1)
     : baseUri;
-  const databasePath =
-    normalizedBaseUri.includes("mongodb+srv://") &&
-    !normalizedBaseUri.endsWith(`/${dbName}`)
-      ? `${normalizedBaseUri}/${dbName}`
-      : normalizedBaseUri;
+
+  // Detect if the URI already contains a database path (e.g. mongodb+srv://host/DB)
+  const withoutProtocol = normalizedBaseUri.replace(/^mongodb(?:\+srv)?:\/\//i, "");
+  const hasDatabasePath = withoutProtocol.includes("/");
+
+  const databasePath = hasDatabasePath
+    ? normalizedBaseUri
+    : `${normalizedBaseUri}/${dbName}`;
+
   const searchParams = new URLSearchParams(queryString || "");
 
   if (!searchParams.has("retryWrites")) {
@@ -395,14 +407,14 @@ app.get("/api/gemstones/collection/:slug", async (req, res) => {
     }
 
     let sortOption = {};
-
+  
     switch (sort) {
-      case "price-low-high":
+      case "price-low-high": 
         sortOption.price = 1;
         break;
       case "price-high-low":
-        sortOption.price = -1;
-        break;
+        sortOption.price = -1; 
+        break;  
       case "a-z":
         sortOption.name = 1;
         break;
@@ -411,7 +423,7 @@ app.get("/api/gemstones/collection/:slug", async (req, res) => {
         break;
       default:
         sortOption.createdAt = -1;
-    }
+    } 
 
     const safeLimit = Math.min(Math.max(Number(limit) || 12, 1), 100);
     const safePage = Math.max(Number(page) || 1, 1);

@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import api from "../../lib/api";
+import { formatUsd } from "../../lib/currency";
 
 const Checkout = () => {
   const { state } = useLocation();
@@ -397,7 +398,7 @@ if (user) {
 
               <span>Delivery Charges</span>
 
-              <span>Rs 350.00</span>
+              <span>{formatUsd(shipping)}</span>
 
             </div>
 
@@ -583,8 +584,7 @@ if (user) {
 
               <span className="text-sm">
 
-                Rs.
-                {item.price * item.quantity}
+                {formatUsd(item.price * item.quantity)}
 
               </span>
 
@@ -631,7 +631,7 @@ if (user) {
 
               <span>Subtotal</span>
 
-              <span>Rs {subtotal}</span>
+              <span>{formatUsd(subtotal)}</span>
 
             </div>
 
@@ -639,7 +639,7 @@ if (user) {
 
               <span>Shipping</span>
 
-              <span>Rs {shipping}</span>
+              <span>{formatUsd(shipping)}</span>
 
             </div>
 

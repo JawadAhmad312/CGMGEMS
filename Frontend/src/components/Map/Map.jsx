@@ -38,9 +38,9 @@ function Map() {
           <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
 
             Visit
-            <span className="bg-gradient-to-r from-[#4ade80] to-[#22c55e] bg-clip-text text-transparent">
-              {" "}SWATI Gemz
-            </span>
+            <span className="bg-gradient-to-r from-[#C98A18] via-[#E5B04A] to-[#B8730C] bg-clip-text text-transparent">
+  {" "}CGM GEMZ
+</span>
 
             <br />
 

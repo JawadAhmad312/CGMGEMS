@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditRing() {
 
@@ -68,7 +69,7 @@ function EditRing() {
 
             .then(data => {
 
-                setRing(data);
+                setRing({ ...data, price: formatUsdInput(data.price) });
 
                 /* CLEAN OTHER IMAGES */
 
@@ -233,7 +234,7 @@ function EditRing() {
 
                     formData.append(
                         key,
-                        value ?? ""
+                        key === "price" ? usdToPkr(value) : value ?? ""
                     );
                 }
             );

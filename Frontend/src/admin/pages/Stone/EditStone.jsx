@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditStone() {
   const { id } = useParams();
@@ -44,7 +45,7 @@ function EditStone() {
     fetch(`http://localhost:8080/api/stone/${id}`)
       .then(res => res.json())
       .then(data => {
-        setStone(data);
+        setStone({ ...data, price: formatUsdInput(data.price) });
 
         if (data.images && data.images.length > 0) {
           setOldImages(data.images);
@@ -161,7 +162,7 @@ function EditStone() {
     const formData = new FormData();
 
     Object.entries(stone).forEach(([key, value]) => {
-      formData.append(key, value ?? "");
+      formData.append(key, key === "price" ? usdToPkr(value) : value ?? "");
     });
 
     // main image

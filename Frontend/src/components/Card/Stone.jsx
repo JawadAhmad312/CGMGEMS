@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaBalanceScale } from "react-icons/fa";
 import MobileFilter from "../filters/MobileFilter";
 import DesktopFilter from "../filters/DesktopFilter";
 import { apiUrl } from "../../lib/api";
+import { formatPkr, formatUsd } from "../../lib/currency";
 
 
 
@@ -30,8 +31,21 @@ function Stone() {
   /* ---------------- LOAD DATA ---------------- */
   useEffect(() => {
    fetch(apiUrl("/api/stone"))
-      .then(res => res.json())
-      .then(data => setProducts(data));
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to load stones");
+        }
+        return Array.isArray(data)
+          ? data
+          : Array.isArray(data.stones)
+            ? data.stones
+            : Array.isArray(data.data)
+              ? data.data
+              : [];
+      })
+      .then(data => setProducts(data))
+      .catch(() => setProducts([]));
 
    const user = JSON.parse(localStorage.getItem("user"));
   }, []);
@@ -141,6 +155,9 @@ if (filters.availability === "outStock") {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
+   <div>
+
+   
     <div className="max-w-7xl mx-auto mt-16 px-4 ">
 
       {/* 🔥 FILTER BAR */}
@@ -168,27 +185,14 @@ filteredProducts.length
      
       {/* PRODUCT GRID */}
      <div
-  className="max-w-7xl mx-auto grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4"
+  className="max-w-7xl mx-auto grid grid-cols-2 gap-5 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-12 2xl:grid-cols-5"
 >
 
         {currentProducts.map((item) => (
 
           <div
             key={item._id}
-           className="
-    bg-[#f5f5f5]
-    rounded-md
-    shadow-md
-    hover:shadow-md
-    border
-    border-gray-300
-    transition
-    duration-300
-    overflow-hidden
-    group
-    md:min-h-[400px]
-    relative
-  "
+           className="catalog-product-card group"
           >
 
            {(item.soldOut || item.stockquantity <= 0) && (
@@ -215,48 +219,250 @@ filteredProducts.length
 
             
 
-            <Link to={`/product/stone/${item._id}`}>
-              <div className="p-6 flex justify-center items-center">
+            <Link to={`/product/stone/${item._id}`} >
+             <div
+  className="
+    absolute
+    left-[-10px]
+    right-[-10px]
+    top-[-1px]
+    bottom-[-1px]
+    bg-white
+    border
+    border-[#dfe3e3]
+    transition-all
+    duration-200
+    ease-out
+    group-hover:bottom-[-10px]
+    group-hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)]
+  "
+/>
+              <div className="catalog-product-card__image">
+                     <div
+                className="
+                  absolute
+                  right-0
+                  top-0
+                  z-30
+                  flex
+                  h-[64px]
+                  items-center
+                  justify-between
+                  px-[30px]
+                "
+              >
+
+  
+                {/* COMPARE */}
+
+                <button
+                  type="button"
+                  title="Compare product"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  className="
+                    flex
+                    h-[25px]
+                    w-[25px]
+                    items-right 
+                    justify-right
+                    border-0
+                    bg-transparent
+                    p-0
+                    text-[#303030]
+                  "
+                >
+                  <FaBalanceScale
+                    className="
+                      h-[21px]
+                      w-[21px]
+                    "
+                  />
+                </button>
+
+              </div>
                 <div
-   className="
-       w-[110px]
-h-[110px]
-md:w-[240px]
-md:h-[240px]
-        rounded-full
-        bg-white
-        flex
-        justify-center
-        items-center
-        shadow-inner
-        overflow-hidden
-      "
->
+                className="
+                  absolute
+                  left-[17px]
+                  right-[17px]
+                  top-[30px]
+                  h-[160px]
+                  overflow-hidden
+                "
+              >
+
+                <div
+                  className="
+                    relative
+                    flex
+                    h-full
+                    w-full
+                    items-center
+                    justify-center
+                    bg-white
+                  "
+                >
+
                   <img
                     src={item.image}
                     alt={item.name}
-                  className="h-[90px] md:h-[120px]
-          w-auto object-contain transition-transform
-          duration-300 group-hover:scale-105"
+                    className="
+                      h-full
+                      w-full
+                      object-contain
+                      object-center
+                      transition-transform
+                      duration-300
+                      ease-out
+                      group-hover:scale-[1.02]
+                    "
                   />
+
                 </div>
+
+              </div>
               </div>
             </Link>
 
-            <div className="p-3 sm:p-5 text-start">
-              <h3  className="text-[14px] sm:text-lg
-          font-semibold text-gray-900
-           dark:text-black
-          group-hover:text-black
-          leading-[20px] sm:leading-normal
-          line-clamp-2 min-h-[42px]">{item.name}</h3>
-              <p className=" text-gray-600
-    dark:text-black text-[13px] sm:text-[15px]">
-                PKR.{Number(item.price).toLocaleString()}
-              </p>
+             <div
+                className="
+                  absolute
+                  left-0
+                  right-0
+                  top-[240px]
+                  flex
+                  flex-col
+                  items-center
+                  px-[20px]
+                  text-center
+                "
+              >
 
-             
-            </div>
+                {/* PRODUCT NAME */}
+
+                <h3
+                  className="
+                    m-0
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    text-center
+                    text-[17px]
+                    font-medium
+                    text-[#111]
+                    transition-colors
+                    duration-200
+                    group-hover:text-[#6c5631]
+                  "
+                >
+                  <span className="line-clamp-2">
+                    {item.name} - {item.weight}crt
+                  </span>
+                </h3>
+
+                {/* USD */}
+
+                <p
+                  className="
+                    m-0
+                    flex
+                    h-[34px]
+                    w-full
+                    items-center
+                    justify-center
+                    text-[23px]
+                    font-semibold
+                    leading-[34px]
+                    text-[#111]
+                  "
+                >
+                  {formatUsd(item.price)}
+                </p>
+
+
+                {/* PKR */}
+
+                <p
+                  className="
+                    m-0
+                    flex
+                    h-[25px]
+                    w-full
+                    items-center
+                    justify-center
+                    gap-[5px]
+                    text-[15px]
+                    font-normal
+                    leading-[25px]
+                    text-[#333]
+                  "
+                >
+
+                  {formatPkr(item.price)}
+
+                  <span
+                    className="
+                      flex
+                      h-[15px]
+                      w-[15px]
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-[#282828]
+                      text-[10px]
+                      font-bold
+                      text-white
+                    "
+                  >
+                    ?
+                  </span>
+
+                </p>
+
+
+                {/* ==================================================
+                    VIEW DETAILS
+                    HIDDEN -> VISIBLE ON HOVER
+                ================================================== */}
+
+                <span
+                  className="
+                    mt-[10px]
+                    flex
+                    h-[40px]
+                    w-full
+                    items-center
+                    justify-center
+                    border
+                    border-[#333]
+                    bg-white
+                    text-[15px]
+                    font-medium
+                    uppercase
+                    text-[#111]
+                    opacity-0
+                    invisible
+                    translate-y-[6px]
+                    transition-all
+                    text-black
+                    hover:bg-black
+                    hover:text-white
+                    duration-200
+                    ease-out
+                    group-hover:visible
+                    group-hover:translate-y-0
+                    group-hover:opacity-100
+                  "
+                >
+                  VIEW DETAILS
+                </span>
+
+              </div>
 
           </div>
 
@@ -264,45 +470,192 @@ md:h-[240px]
 
       </div>
 
-      <div className="flex justify-center items-center gap-2 mt-12">
+     
+    </div>
+    {/* ============================================================
+    PAGINATION
+============================================================ */}
+
+{totalPages > 1 && (
+  <div className="relative mt-16 w-full border-y border-[#e5e5e5]">
+
+    <div className="flex h-[76px] items-center justify-center">
+
+      <div className="flex items-center">
+
+        {/* PAGE NUMBERS */}
+
+        {(() => {
+          const pages = [];
+
+          // Show first pages
+          if (totalPages <= 7) {
+            for (let page = 1; page <= totalPages; page++) {
+              pages.push(
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`
+                    relative
+                    mx-[9px]
+                    flex
+                    h-[35px]
+                    min-w-[20px]
+                    items-center
+                    justify-center
+                    border-0
+                    bg-transparent
+                    px-0
+                    text-[16px]
+                    font-normal
+                    text-[#111]
+                    transition-colors
+                    duration-200
+                    hover:text-[#666]
+
+                    ${
+                      currentPage === page
+                        ? "font-medium after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[4px] after:bg-black"
+                        : ""
+                    }
+                  `}
+                >
+                  {page}
+                </button>
+              );
+            }
+          } else {
+
+            /*
+              ====================================================
+              LARGE NUMBER OF PAGES
+
+              Example:
+
+              1  2  3  4  5  6  7  ...  14
+              ====================================================
+            */
+
+            const addPage = (page) => {
+              pages.push(
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`
+                    relative
+                    mx-[9px]
+                    flex
+                    h-[35px]
+                    min-w-[20px]
+                    items-center
+                    justify-center
+                    border-0
+                    bg-transparent
+                    px-0
+                    text-[16px]
+                    font-normal
+                    text-[#111]
+                    transition-colors
+                    duration-200
+                    hover:text-[#666]
+
+                    ${
+                      currentPage === page
+                        ? "font-medium after:absolute after:bottom-[-2px] after:left-0 after:right-0 after:h-[4px] after:bg-black"
+                        : ""
+                    }
+                  `}
+                >
+                  {page}
+                </button>
+              );
+            };
+
+            // First 7 pages
+            for (let page = 1; page <= 7; page++) {
+              addPage(page);
+            }
+
+            // Ellipsis
+            pages.push(
+              <span
+                key="ellipsis"
+                className="
+                  mx-[8px]
+                  flex
+                  h-[35px]
+                  items-center
+                  text-[16px]
+                  text-[#222]
+                "
+              >
+                ...
+              </span>
+            );
+
+            // Last page
+            addPage(totalPages);
+          }
+
+          return pages;
+        })()}
+
+
+        {/* ======================================================
+            DIVIDER
+        ====================================================== */}
+
+        <span
+          className="
+            mx-[16px]
+            h-[30px]
+            w-px
+            bg-[#d8d8d8]
+          "
+        />
+
+
+        {/* ======================================================
+            NEXT
+        ====================================================== */}
 
         <button
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-3 py-2 bg-gray-200 rounded dark:text-black "
-        >
-          ←
-        </button>
-
-        {[...Array(totalPages)].map((_, index) => {
-          const page = index + 1;
-
-          return (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-full border transition-all duration-300 ${currentPage === page
-                ? "bg-gradient-to-r from-[#092805] to-[#224225] text-white  scale-110 shadow"
-                : "bg-white hover:bg-gradient-to-r from-[#092805] to-[#224225] dark:text-black hover:text-white"
-                }`}
-            >
-              {page}
-            </button>
-          );
-        })}
-
-        <button
+          type="button"
           onClick={() =>
-            setCurrentPage(prev => Math.min(prev + 1, totalPages))
+            setCurrentPage((prev) =>
+              Math.min(prev + 1, totalPages)
+            )
           }
           disabled={currentPage === totalPages}
-          className="px-3 py-2 bg-gray-200 text-black rounded"
+          className="
+            flex
+            h-[35px]
+            items-center
+            border-0
+            bg-transparent
+            px-0
+            text-[16px]
+            font-semibold
+            uppercase
+            text-[#222]
+            transition-opacity
+            duration-200
+            hover:opacity-60
+            disabled:cursor-not-allowed
+            disabled:opacity-40
+          "
         >
-          →
+          NEXT
         </button>
 
       </div>
+
     </div>
+
+  </div>
+)}
+    </div>
+    
   );
 }
 

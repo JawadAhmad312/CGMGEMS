@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import {
     useNavigate
 } from "react-router-dom";
+import { usdToPkr } from "../../../lib/currency";
 
 
 function AddWomenRing() {
@@ -93,7 +94,7 @@ function AddWomenRing() {
         const formData = new FormData();
 
         formData.append("name", ring.name);
-        formData.append("price", Number(ring.price));
+        formData.append("price", usdToPkr(ring.price));
         formData.append("description", ring.description);
         formData.append("category", ring.category);
         formData.append("stockquantity", Number(ring.stockquantity));

@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 
 import { FiTrash2 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditMenCategory() {
 
@@ -100,7 +101,7 @@ function EditMenCategory() {
                         data.title || "",
 
                     price:
-                        data.price || "",
+                        formatUsdInput(data.price),
 
                     description:
                         data.description || "",
@@ -353,7 +354,7 @@ function EditMenCategory() {
 
                 formData.append(
                     "price",
-                    category.price
+                    usdToPkr(category.price)
                 );
 
                 formData.append(

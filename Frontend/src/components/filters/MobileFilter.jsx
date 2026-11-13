@@ -5,6 +5,7 @@ import {
   FiChevronRight,
   FiChevronLeft,
 } from "react-icons/fi";
+import { formatUsd, usdToPkr } from "../../lib/currency";
 
 const MobileFilter = ({
   filters,
@@ -314,9 +315,9 @@ const MobileFilter = ({
           {tempFilters.minPrice === "" &&
           tempFilters.maxPrice === ""
             ? "Any Price"
-            : `PKR ${tempFilters.minPrice || 0}
-               -
-               PKR ${tempFilters.maxPrice || "∞"}`}
+            : `${formatUsd(usdToPkr(tempFilters.minPrice || 0))}
+              -
+              ${tempFilters.maxPrice ? formatUsd(usdToPkr(tempFilters.maxPrice)) : "No limit"}`}
 
         </p>
 

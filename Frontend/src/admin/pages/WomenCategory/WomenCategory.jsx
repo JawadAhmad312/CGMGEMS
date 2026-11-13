@@ -4,6 +4,7 @@ import {
 } from "react";
 
 import axios from "axios";
+import { formatUsd } from "../../../lib/currency";
 
 import {
   FiEdit,
@@ -530,7 +531,7 @@ Stock:
 Price:
 </span>{" "}
 
-PKR {Number(item.price).toLocaleString()}
+{formatUsd(item.price)}
 
 </div>
 

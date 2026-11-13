@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiBell, FiMenu } from "react-icons/fi";
 import { apiUrl } from "../../lib/api";
+import { formatUsd } from "../../lib/currency";
 
 const Navbar = ({
   notifications = [],
@@ -271,7 +272,7 @@ const Navbar = ({
                           text-green-600
                         "
                       >
-                        Rs {item.total}
+                        {formatUsd(item.total)}
                       </p>
 
                     </div>

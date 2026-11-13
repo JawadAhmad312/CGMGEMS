@@ -3,6 +3,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { usdToPkr } from "../../../lib/currency";
 
 function AddNecklace() {
 
@@ -95,7 +96,7 @@ function AddNecklace() {
     const formData = new FormData();
 
     Object.entries(necklace).forEach(([key, value]) => {
-      formData.append(key, value ?? "");
+      formData.append(key, key === "price" ? usdToPkr(value) : value ?? "");
     });
 
     // MAIN IMAGE

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditNecklace() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ function EditNecklace() {
     fetch(`http://localhost:8080/api/necklace/${id}`)
       .then(res => res.json())
       .then(data => {
-        setNecklace(data);
+        setNecklace({ ...data, price: formatUsdInput(data.price) });
         setOldImages(data.images || []);
       });
   }, [id]);
@@ -68,7 +69,7 @@ function EditNecklace() {
     const formData = new FormData();
     setLoading(true);
     Object.entries(necklace).forEach(([key, value]) => {
-      formData.append(key, value ?? "");
+      formData.append(key, key === "price" ? usdToPkr(value) : value ?? "");
     });
 
     // MAIN IMAGE

@@ -1,3 +1,5 @@
+import { formatUsd } from "../../../lib/currency";
+
 export default function OrdersTable({
   orders = []
 }) {
@@ -72,7 +74,7 @@ export default function OrdersTable({
 
             <span className="font-semibold dark:text-gray-900">
 
-              Rs.{order.total}
+              {formatUsd(order.total)}
 
             </span>
 

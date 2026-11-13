@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { usdToPkr } from "../../../lib/currency";
 
 
 function AddEarring() {
@@ -8,7 +9,7 @@ function AddEarring() {
   const [earring, setEarring] = useState({
     name: "",
     price: "",
-    currency: "PKR",
+    currency: "USD",
     description: "",
     metal: "925 Silver",
     stoneWeight: "",
@@ -81,7 +82,7 @@ setLoading(true);
     const formData = new FormData();
 
     Object.entries(earring).forEach(([key, value]) => {
-      formData.append(key, value ?? "");
+      formData.append(key, key === "price" ? usdToPkr(value) : value ?? "");
     });
 
     formData.append("image", mainImage);
@@ -103,7 +104,7 @@ setLoading(true);
         setEarring({
           name: "",
           price: "",
-          currency: "PKR",
+          currency: "USD",
           description: "",
           metal: "925 Silver",
           stoneWeight: "",

@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaBalanceScale } from "react-icons/fa";
 import DesktopFilter from "../filters/DesktopFilter";
 import MobileFilter from "../filters/MobileFilter";
+import { formatPkr, formatUsd } from "../../lib/currency";
 import { apiUrl, assetUrl } from "../../lib/api";
 import ProductPagination from "../common/ProductPagination";
 
@@ -179,6 +180,7 @@ useEffect(() => {
 };
   
   return (
+    <div>
     <div className="max-w-7xl mx-auto mt-16 px-4 ">
       <DesktopFilter
         filters={filters}
@@ -194,31 +196,73 @@ useEffect(() => {
       />
 
       {/* PRODUCT GRID */}
-      <div className="max-w-7xl mx-auto grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 gap-5 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-12 2xl:grid-cols-5">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
           : currentProducts.map((earring) => (
-            <div key={earring._id} className="
-    bg-[#f5f5f5]
-    rounded-md
-    shadow-md
-    hover:shadow-md
-    border
-    border-gray-300
-    transition
-    duration-300
-    overflow-hidden
-    group
-    md:min-h-[400px]
-    relative
-  ">
+            <div key={earring._id} className="catalog-product-card group">
 
              
 
               <Link  to={`/product/earrings/${earring._id}`}>
                 <div
-                 className="p-6 flex justify-center items-center"
+  className="
+    absolute
+    left-[-10px]
+    right-[-10px]
+    top-[-1px]
+    bottom-[-1px]
+    bg-white
+    border
+    border-[#dfe3e3]
+    transition-all
+    duration-200
+    ease-out
+    group-hover:bottom-[-30px]
+    group-hover:shadow-[0_4px_15px_rgba(0,0,0,0.15)]
+  "
+/>
+                <div
+                 className="catalog-product-card__image"
                 >
+                  <div className="
+                  absolute
+                  right-0
+                  top-0
+                  z-30
+                  flex
+                  h-[64px]
+                  items-center
+                  justify-between
+                  px-[30px]
+                ">
+                     <button
+                                      type="button"
+                                      title="Compare product"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                      }}
+                                      className="
+                                        flex
+                                        h-[25px]
+                                        w-[25px]
+                                        items-right 
+                                        justify-right
+                                        border-0
+                                        bg-transparent
+                                        p-0
+                                        text-[#303030]
+                                      "
+                                    >
+                                      <FaBalanceScale
+                                        className="
+                                          h-[21px]
+                                          w-[21px]
+                                        "
+                                      />
+                                    </button>
+                  </div>
                   {/* SOLD OUT */}
 
                 {(earring.soldOut || earring.stockquantity <= 0) && (
@@ -242,19 +286,7 @@ useEffect(() => {
                       Sold out
                     </span>
                   )}
-                  <div      className="
-       w-[110px]
-h-[110px]
-md:w-[240px]
-md:h-[240px]
-        rounded-full
-        bg-white
-        flex
-        justify-center
-        items-center
-        shadow-inner
-        overflow-hidden
-      ">
+                  <div className="catalog-product-card__frame">
                     
                     <img
                       src={
@@ -262,36 +294,90 @@ md:h-[240px]
                           ? earring.image
                           : assetUrl(earring.image)
                       }
-                   className="h-[90px] md:h-[120px]
-          w-auto object-contain transition-transform
-          duration-300 group-hover:scale-105"
+                   className="catalog-product-card__product-image"
                     />
                     </div>
                 </div>
               </Link>
 
-              <div className="p-3 sm:p-5 text-start">
-                <h3 className="text-[14px] sm:text-lg
-          font-semibold text-gray-900
-           dark:text-black
-          group-hover:text-black
-          leading-[20px] sm:leading-normal
-          line-clamp-2 min-h-[42px]">
+              <div  className="
+                  absolute
+                  left-0
+                  right-0
+                  top-[260px]
+                  flex
+                  flex-col
+                  items-center
+                  
+                  text-center
+                ">
+                <h3 className="
+                    m-0
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    text-center
+                    text-[17px]
+                    font-medium
+                    text-[#111]
+                    transition-colors
+                    duration-200
+                    group-hover:text-[#6c5631]
+                  ">
                   {earring.name}
                 </h3>
                 <div className="flex  gap-2 items-start">
-                  <span className=" text-gray-600
-    dark:text-black text-[13px] sm:text-[15px]">
-                    PKR.{Number(earring.price).toLocaleString()}
+                  <span  className="
+                    m-0
+                    flex
+                    h-[34px]
+                    w-full
+                    items-center
+                    justify-center
+                    text-[23px]
+                    font-semibold
+                    leading-[34px]
+                    text-[#111]
+                  ">
+                    {formatUsd(earring.price)}
                   </span>
                 </div>
+                <p className="catalog-product-card__pkr-price">{formatPkr(earring.price)}</p>
+                <Link to={`/product/earrings/${earring._id}`} state={{ item: earring }}   className="
+                    mt-[10px]
+                    flex
+                    h-[40px]
+                    w-full
+                    items-center
+                    justify-center
+                    border
+                    border-[#333]
+                    bg-white
+                    text-[15px]
+                    font-medium
+                    uppercase
+                    text-[#111]
+                    opacity-0
+                    invisible
+                    translate-y-[6px]
+                    transition-all
+                    duration-200
+                    ease-out
+                    group-hover:visible
+                    group-hover:translate-y-0
+                    group-hover:opacity-100
+                  ">
+                  View Details
+                </Link>
                
               </div>
             </div>
           ))}
       </div>
-
-      <ProductPagination
+    </div>
+     <ProductPagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}

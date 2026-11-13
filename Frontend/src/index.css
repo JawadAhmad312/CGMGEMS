@@ -9,6 +9,205 @@ body{
   overflow-x: hidden ;
 }
 
+.catalog-product-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  flex-direction: column;
+  overflow: visible;
+  min-width: 0;
+  height: 400px;
+  border: 1px solid #dde1df;
+  background: #fff;
+  color: #2e2e2e;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.catalog-product-card:hover {
+  z-index: 2;
+  border-color: #d6dad8;
+  box-shadow: 0 9px 18px rgb(27 38 34 / 18%);
+  transform: translateY(-0.15rem);
+}
+
+.catalog-product-card__image {
+  position: relative;
+  display: flex;
+  height: 230px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #fff;
+}
+
+.catalog-product-card__control {
+  position: absolute;
+  z-index: 20;
+  top: 0.7rem;
+  color: #2e2e2e;
+  font-size: 1.05rem;
+  opacity: 1;
+}
+.catalog-product-card__control--wishlist { left: 0.7rem; }
+.catalog-product-card__control--compare { right: 0.7rem; }
+
+.catalog-product-card__frame {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1.4rem 1.15rem 0.65rem;
+}
+
+.catalog-product-card__product-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  transition: transform 0.35s ease;
+}
+.catalog-product-card:hover .catalog-product-card__product-image { transform: scale(1.04); }
+
+.catalog-product-card__details {
+  position: relative;
+  flex: 1;
+  min-height: 174px;
+  padding: 0.35rem 0 1.2rem;
+  text-align: center;
+}
+.catalog-product-card__details h3 {
+  min-height: 45px;
+  margin: 0;
+  color: #2e2e2e;
+  font-family: Poppins, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.catalog-product-card__item-id {
+  margin: 0.12rem 0 0;
+  color: #1d2528;
+  font-size: 0.95rem;
+}
+.catalog-product-card__price {
+  margin: 0.18rem 0 0;
+  color: #151d20;
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+.catalog-product-card__pkr-price {
+  position: relative;
+  display: inline-block;
+  margin: 0.12rem 0 0;
+  color: #20282b;
+  font-size: 0.82rem;
+  cursor: help;
+}
+.catalog-product-card__pkr-price::after {
+  content: "?";
+  display: inline-grid;
+  height: 14px;
+  width: 14px;
+  place-items: center;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: #303638;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: 1px;
+}
+.catalog-product-card__pkr-price::before {
+  content: "Currency Converted to PKR\A\A We detected that you are visiting our website from Pakistan. As a courtesy, we have made a close approximation of this item's price after converting from USD to PKR. Please note that we process all charges in USD, and final prices may vary due to associated credit card fees and exchange rate fluctuations.";
+  position: absolute;
+  z-index: 30;
+  bottom: calc(100% + 13px);
+  left: 50%;
+  width: 305px;
+  padding: 12px;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 3px 13px rgb(0 0 0 / 18%);
+  color: #303a40;
+  font-family: Poppins, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  white-space: pre-line;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.catalog-product-card__pkr-price:hover::before {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.catalog-product-card .catalog-product-card__cta {
+  display: flex;
+  height: 41px;
+  min-height: 41px;
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: calc(100% - 20px);
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  border: 1px solid #2e3436;
+  background: #fff;
+  color: #2e2e2e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  max-height: 41px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: transform 0.25s ease, opacity 0.18s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.catalog-product-card .catalog-product-card__cta::before {
+  content: "◉";
+  position: absolute;
+  right: calc(100% + 13px);
+  display: grid;
+  height: 39px;
+  width: 42px;
+  place-items: center;
+  border: 1px solid #2e3436;
+  background: #fff;
+  color: #2e3436;
+  font-size: 1rem;
+}
+.catalog-product-card:hover .catalog-product-card__cta {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.catalog-product-card .catalog-product-card__cta::before {
+  content: none;
+  display: none;
+}
+.catalog-product-card .catalog-product-card__cta:hover { background: #2e2e2e; color: #fff; }
+
+@media (max-width: 767px) {
+  .catalog-product-card { height: 310px; }
+  .catalog-product-card__image { height: 160px; }
+  .catalog-product-card__control { opacity: 1; }
+  .catalog-product-card__frame { padding: 0.8rem; }
+  .catalog-product-card__details { min-height: 145px; padding: 0.4rem 0 0.8rem; }
+  .catalog-product-card__details h3 { font-size: 0.78rem; }
+  .catalog-product-card__item-id, .catalog-product-card__pkr-price { font-size: 0.68rem; }
+  .catalog-product-card__price { font-size: 1rem; }
+  .catalog-product-card .catalog-product-card__cta { bottom: 9px; font-size: 0.72rem; }
+}
+
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradientMove 5s linear infinite;

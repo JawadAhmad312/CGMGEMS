@@ -7,6 +7,7 @@ import {
   FiEdit,
   FiTrash2,
 } from "react-icons/fi";
+import { formatUsd } from "../../../lib/currency";
 
 import {
   useNavigate,
@@ -701,7 +702,7 @@ items-center
   <span className="md:hidden font-semibold ">
     Price:
   </span>{" "}
-  PKR {Number(item.price).toLocaleString()}
+  {formatUsd(item.price)}
 </div>
 
                 {/* ORDERS */}

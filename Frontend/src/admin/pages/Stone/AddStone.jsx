@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiTrash2 } from "react-icons/fi";
+import { usdToPkr } from "../../../lib/currency";
 
 
 function AddStone() {
@@ -72,7 +73,7 @@ function AddStone() {
     const formData = new FormData();
 
     Object.entries(stone).forEach(([key, value]) => {
-      formData.append(key, value ?? "");
+      formData.append(key, key === "price" ? usdToPkr(value) : value ?? "");
     });
 
     formData.append("image", mainImage);

@@ -14,6 +14,7 @@ import {
 import {
   FiTrash2,
 } from "react-icons/fi";
+import { formatUsdInput, usdToPkr } from "../../../lib/currency";
 
 function EditGemstone() {
 
@@ -92,6 +93,8 @@ function EditGemstone() {
         setProduct({
 
           ...gemstone,
+
+          price: formatUsdInput(gemstone.price),
 
           gemCollection:
             gemstone.gemCollection?._id ||
@@ -234,7 +237,7 @@ function EditGemstone() {
 
             formData.append(
               key,
-              value ?? ""
+              key === "price" ? usdToPkr(value) : value ?? ""
             );
           });
 

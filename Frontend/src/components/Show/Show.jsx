@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 import { apiUrl } from "../../lib/api";
+import { formatPkr, formatUsd } from "../../lib/currency";
+import { FaBalanceScale } from "react-icons/fa";
+import "./Show.css";
 
 
 
@@ -291,14 +294,14 @@ alert("Added to cart 🛒");
 
   return (
     <>
-      <div className="max-w-7xl mx-auto min-h-screen mt-12 px-4 
+      <div className="ng-product-page max-w-7xl mx-auto min-h-screen mt-12 px-4 
                 flex flex-col lg:flex-row justify-center 
                 gap-10 lg:gap-20 bg-white">
 
         {/* LEFT SIDE (Images Section) */}
         <div className="w-full lg:w-[550px] text-center 
                 lg:sticky lg:top-10 h-fit">
-          <div className="w-full h-[450px] md:h-[520px] flex items-center justify-center 
+          <div className="ng-product-image w-full h-[450px] md:h-[520px] flex items-center justify-center 
                           border border-gray-200 shadow-sm mb-6 bg-white overflow-hidden touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -346,8 +349,8 @@ alert("Added to cart 🛒");
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="w-full lg:w-[520px]">
-          <p className="text-sm text-gray-500 tracking-wide">SWATI GEMZ</p>
+        <div className="ng-product-info w-full lg:w-[520px]">
+          <p className="text-sm text-gray-500 tracking-wide">SWATI GEMZ · NATURAL GEMSTONES</p>
           <h1 className="text-4xl text-gray-900
     dark:text-black font-mediumbold mt-1 leading-tight abril-fatface-regular">
             {item.name || item.title}
@@ -356,12 +359,7 @@ alert("Added to cart 🛒");
           </h1>
           <p className="mt-6 text-sm text-gray-900
     dark:text-black md:text-[22px] font-semibold">
-            Rs.{new Intl.NumberFormat("en-PK").format(
-              displayType === "gemstone"
-                ? item.price
-                : item.price
-            )}
-            .00 PKR
+            {formatUsd(item.price)}
           </p>
 
           {/* Quantity */}
@@ -415,7 +413,7 @@ alert("Added to cart 🛒");
       item.soldOut ||
       item.stockquantity <= 0
     }
-    className="w-full bg-black text-white dark:text-white py-3 hover:bg-gray-800 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            className="ng-product-primary w-full bg-black text-white dark:text-white py-3 hover:bg-gray-800 transition disabled:opacity-60 disabled:cursor-not-allowed"
   >
     {item.soldOut ||
     item.stockquantity <= 0
@@ -525,32 +523,16 @@ alert("Added to cart 🛒");
           You Might Love These Gems
         </h2>
         <div
-          className="mt-10 max-w-7xl mx-auto px-3 sm:px-4
-  grid grid-cols-2 lg:grid-cols-4
-  gap-3 sm:gap-6"
+          className="mt-10 max-w-7xl mx-auto px-3 sm:px-4 grid grid-cols-2 gap-5 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-12"
         >
           {relatedProducts.map((product) => (
-            <Link
-              to={
-                displayType === "gemstone"
-                  ? `/product/gemstone/${product.slug}`
-                  : `/product/${type}/${product._id}`
-              }
-              state={{ item: product }}
-              key={product._id}
-              className="group bg-white rounded-lg sm:rounded-2xl
-      shadow-sm border border-gray-200
-      hover:shadow-xl hover:-translate-y-1
-      transition-all duration-300 overflow-hidden"
-            >
-
-              {/* Image */}
-              {/* Image */}
-<div
-  className="relative w-full h-[170px] sm:h-[280px]
-  bg-gray-50 flex items-center justify-center
-  p-3 sm:p-4"
->
+            <div key={product._id} className="catalog-product-card group">
+              <Link
+                to={displayType === "gemstone" ? `/product/gemstone/${product.slug}` : `/product/${type}/${product._id}`}
+                state={{ item: product }}
+                className="catalog-product-card__image"
+              >
+                <div className="catalog-product-card__control catalog-product-card__control--compare" title="Compare product"><FaBalanceScale /></div>
 
   {/* SOLD OUT */}
   {(product.soldOut || product.stockquantity <= 0) && (
@@ -577,40 +559,25 @@ alert("Added to cart 🛒");
       Sold out
     </span>
   )}
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-[90px] sm:h-[150px]
-          w-auto object-contain transition-transform
-          duration-300 group-hover:scale-105"
-                />
-              </div>
+                <div className="catalog-product-card__frame">
+                  <img src={product.image} alt={product.name} className="catalog-product-card__product-image" />
+                </div>
+              </Link>
 
-              {/* Content */}
-              <div className="p-3 sm:p-5 text-start">
-
-                <h3
-                  className="text-[14px] sm:text-lg
-          font-semibold text-gray-900
-          group-hover:text-black
-          leading-[20px] sm:leading-normal
-          line-clamp-2 min-h-[42px]"
+              <div className="catalog-product-card__details">
+                <h3>{product.name}</h3>
+                <p className="catalog-product-card__item-id">Item ID: {product._id?.slice(-6)}</p>
+                <p className="catalog-product-card__price">{formatUsd(product.price)}</p>
+                <p className="catalog-product-card__pkr-price">{formatPkr(product.price)}</p>
+                <Link
+                  to={displayType === "gemstone" ? `/product/gemstone/${product.slug}` : `/product/${type}/${product._id}`}
+                  state={{ item: product }}
+                  className="catalog-product-card__cta"
                 >
-                  {product.name}
-                </h3>
-
-                <p className="mt-2 text-gray-600 text-[13px] sm:text-[15px]">
-                  Rs.
-                  {new Intl.NumberFormat("en-PK").format(
-                    displayType === "gemstone"
-                      ? product.price
-                      : product.price
-                  )}
-                  PKR
-                </p>
-
+                  View Details
+                </Link>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

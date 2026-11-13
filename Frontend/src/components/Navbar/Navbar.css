@@ -389,3 +389,25 @@ font-family: 'DM Serif Display', serif;
   font-weight: 700;
   color: #224225;
 }
+
+/* Catalog header: matches the clean three-tier navigation of the reference. */
+.ng-main-header { box-shadow: none !important; }
+.ng-brand-title { color: #9a8358; font-family: Georgia, 'Times New Roman', serif !important; font-weight: 400 !important; letter-spacing: .035em !important; background: none !important; -webkit-text-fill-color: #9a8358 !important; }
+.ng-header-logo { display: block; width: 90px; height: 102px; overflow: hidden; background: #000; }
+.ng-header-logo__image { display: block; width: 100%; height: 100%; object-fit: contain; }
+.catalog-topbar { min-height: 42px; display: flex; align-items: stretch; justify-content: space-between; padding: 0 24px; background: #2b2b2b; color: #fff; font-family: Arial, sans-serif; }
+.catalog-topbar__links, .catalog-topbar__contact { display: flex; align-items: center; }
+.catalog-topbar__links a { display: flex; align-items: center; gap: 10px; height: 42px; padding: 0 24px; border-right: 1px solid #555; color: #fff; font-size: 15px; }
+.catalog-topbar__links a:first-child { border-left: 1px solid #555; }.catalog-topbar__links a:nth-child(1) { color: #e91e63; }.catalog-topbar__links a:nth-child(2) { color: #00b894; }.catalog-topbar__links a:nth-child(3) { color: #5b83f1; }.catalog-topbar__links a:nth-child(4) { color: #d1a4ff; }.catalog-topbar__links span { color: #fff; }
+.catalog-topbar__contact { gap: 14px; font-size: 15px; }.catalog-topbar__contact a { padding: 8px 14px; border: 1px solid #fff; color: #fff; font-size: 12px; }.catalog-topbar__contact a span { margin-left: 10px; font-size: 17px; }
+.ng-catalog-nav { min-height: 45px; border-bottom: 1px solid #e0e4e4; }
+.ng-catalog-nav nav { min-height: 26px; }
+.ng-catalog-nav ul > li > a, .ng-catalog-nav ul > li > div { font-family: Lato, sans-serif; font-size: 14px !important; font-weight: 500; text-transform: uppercase; letter-spacing: -.02em; }
+.ng-catalog-nav ul > li { position: relative; padding: 11px 0; }
+.ng-catalog-nav ul > li::after { content: ''; position: absolute; height: 4px; left: 0; right: 0; bottom: 0; background: #6645c1; transform: scaleX(0); transition: transform .18s ease; }
+.ng-catalog-nav ul > li:hover::after, .ng-catalog-nav ul > li:has(.active)::after { transform: scaleX(1); }
+.ng-catalog-nav ul ul { border-radius: 0 !important; border: 1px solid #e1e4e4; box-shadow: 0 7px 14px rgba(0,0,0,.12) !important; top: 100% !important; }
+.ng-catalog-nav ul ul li { padding: 0; }.ng-catalog-nav ul ul li::after { display: none; }
+.ng-main-header .social-icon { width: 28px; height: 28px; border: 0; color: #303030; }
+@media (min-width:768px) { .ng-main-header .navbar { max-width: 1460px; margin: auto; } .ng-main-header { min-height:118px; display:flex; align-items:center; } }
+@media (max-width: 767px) { .catalog-topbar { min-height: 34px; padding: 0 12px; }.catalog-topbar__links { display: none; }.catalog-topbar__contact { width: 100%; justify-content: center; font-size: 11px; }.catalog-topbar__contact a { padding: 5px 9px; font-size: 10px; }.ng-main-header { min-height: 76px; padding-block: 8px !important; }.ng-main-header img { width: 40px !important; }.ng-brand-title { font-size: 18px !important; }.ng-catalog-nav { min-height: 42px; } }

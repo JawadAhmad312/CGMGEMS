@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUrl, assetUrl } from "../../lib/api";
+import { formatUsd } from "../../lib/currency";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -175,7 +176,7 @@ localStorage.setItem(
                 </h3>
 
                 <p className="text-gray-500 mb-4 break-words">
-                Rs.{Number(item.price || 0).toLocaleString()}
+                {formatUsd(item.price || 0)}
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3">
@@ -207,12 +208,7 @@ localStorage.setItem(
               </div>
 
               <div className="font-semibold text-sm sm:text-base break-words sm:text-right sm:whitespace-nowrap sm:self-center">
-                Rs.{
-  Number(
-    (item.price || 0) *
-    item.quantity
-  ).toLocaleString()
-}
+                {formatUsd((item.price || 0) * item.quantity)}
               </div>
             </div>
           ))}
@@ -227,7 +223,7 @@ localStorage.setItem(
           <div className="space-y-4 text-sm">
             <div className="flex justify-between">
               <span>Estimated total</span>
-              <span>Rs.{subtotal.toLocaleString()}.00 PKR</span>
+              <span>{formatUsd(subtotal)}</span>
             </div>  
           </div>
 

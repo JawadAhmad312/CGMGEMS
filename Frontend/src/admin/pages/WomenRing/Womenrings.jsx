@@ -4,6 +4,7 @@ import {
 } from "react";
 
 import axios from "axios";
+import { formatUsd } from "../../../lib/currency";
 
 import {
   FiEye,
@@ -557,7 +558,7 @@ items-center
   <span className="md:hidden font-semibold">
     Price:
   </span>{" "}
-  PKR {Number(item.price).toLocaleString()}
+  {formatUsd(item.price)}
 </div>
 
                 {/* ORDERS */}
